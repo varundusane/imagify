@@ -15,6 +15,10 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 02ac08a5e02b8c2bb1451d42ec17bf3afa8b0827
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -26,6 +30,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 02ac08a5e02b8c2bb1451d42ec17bf3afa8b0827
 # Application definition
 
 INSTALLED_APPS = [
@@ -72,6 +80,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sarahah.wsgi.application'
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 02ac08a5e02b8c2bb1451d42ec17bf3afa8b0827
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -82,6 +94,10 @@ DATABASES = {
     }
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 02ac08a5e02b8c2bb1451d42ec17bf3afa8b0827
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -100,6 +116,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 02ac08a5e02b8c2bb1451d42ec17bf3afa8b0827
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -113,6 +133,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 02ac08a5e02b8c2bb1451d42ec17bf3afa8b0827
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -123,6 +147,7 @@ MEDIA_URL = '/media/'
 LOGIN_URL = "account:login"
 LOGIN_REDIRECT_URL = "account:dashboard"
 LOGOUT_URL = "account:logout"
+<<<<<<< HEAD
 LOGOUT_REDIRECT_URL = "core:home"
 AUTH_USER_MODEL = 'accounts.User'
 EMAIL_BACKEND='django_smtp_ssl.SSLEmailBackend'
@@ -133,3 +158,6 @@ EMAIL_HOST_USER="mail@fintop.com.au"
 DEFAULT_FROM_EMAIL="Fintop <mail@fintop.com.au>"
 #EMAIL_HOST_PASSWORD="SL@Top1Day"
 EMAIL_HOST_PASSWORD="HHgcLSz4Ws9E"
+=======
+AUTH_USER_MODEL = 'accounts.User'
+>>>>>>> 02ac08a5e02b8c2bb1451d42ec17bf3afa8b0827
