@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+{% load bootstrap3 %}
+<div class="container">
+    {% bootstrap_messages %}
+    <div class="panel panel-default">
+        <div class="panel-body text-center">
+            <p><img src="{{ user.profilePic.url }}" alt="{{ user.username }}" class="img-circle img-profile"></p>
+            <p><a href="{% url 'account:settings' 'profile' %}"><i class="fa fa-cog" aria-hidden="true"></i></a> <b>{{ user.name | title}}</b></p>
+            <p><b>Messages: </b></p>
+            <p><a href="{% url 'pubProfile' user.username %}">https://sarahah.com/{{ user.username }}/</a></p>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="text-center">
+                <h2> <i class="fa fa-comments" aria-hidden="true"></i> Messages</h2>
+            </div>
+            <div>
+                <br>
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="active"><a data-toggle="tab" href="#received">Received</a></li>
+                    <li><a data-toggle="tab" href="#favorites">Favorites</a></li>
+                    <li><a data-toggle="tab" href="#sent">Sent</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="received" class="tab-pane fade in active">
+                        {% for message in received %}
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-body row">
+                                <div class="col col-sm-10">
+                                    <p>{{message.message}}</p>
+                                    {% if message.pic %}
+                                    <img src={{message.pic.url}}>
+
+                                    {%endif%}
+                                    <br>
+                                </div>
+                                <div class="col col-sm-2 text-right">
+                                    <form method="post" action="{% url 'message:delete' message.pk %}" >
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+                                <div class="col col-sm-10">
+                                    <p class="text-muted">{{ message.date_joined }}</p>
+                                </div>
+                                <div class="col col-sm-2 text-right">
+                                    <form method="post" action="{% url 'message:favorite' message.pk %}" >
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-heart" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+                                <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive">
+
+                            <div class="row">
+                                <div class="col-auto mx-2">
+                                    <a target="_blank" class="btn btn-social-share" href="https://api.whatsapp.com/send/?phone&image={{message.pic.url}}">
+
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                </div>
+                                <div class="col-auto mx-2">
+                                    <button class="btn btn-social-share" data-sharer="facebook" data-hashtag="fintop" data-url="https://facebook.com/share?" data-title="Let's signup on FinTop! It's a fast, simple, and secure platform to apply & manage home loan Mortgages." data-href-template={{message.pic.url}}>
+                                        <i class="fab fa-facebook"></i>
+                                    </button>
+                                </div>
+                                <div class="col-auto mx-2">
+                                    <button class="btn btn-social-share" data-sharer="twitter" data-hashtag="fintop" data-url="https://www.twitter.com/share?" data-title="Let's signup on FinTop! It's a fast, simple, and secure platform to apply & manage home loan Mortgages." data-href-template={{message.pic.url}}>
+                                        <i class="fab fa-twitter"></i>
+                                    </button>
+                                </div>
+                                <div class="col-auto mx-2">
+                                    <button class="btn btn-social-share" data-sharer="Instagram" data-hashtag="fintop" data-url="https://www.instagram.com/share?" data-title="Let's signup on FinTop! It's a fast, simple, and secure platform to apply & manage home loan Mortgages." data-href-template={{message.pic.url}}>
+                                        <i class="fab fa-instagram"></i>
+                                    </button>
+                                </div>
+                                <div class="col-auto mx-2">
+                                    <button class="btn btn-social-share" data-sharer="email" data-title="Let's signup on FinTop! It's a fast, simple, and secure platform to apply & manage home loan Mortgages.
+" data-subject="Hey! join fintop using this link" data-to="" data-url="https://fintop.com.au/signup/ref={{user.id }}">
+                                        <i class="fa fa-at"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- /.content -->
+
+                            </div>
+                        </div>
+                        {% empty %}
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Nothing to Show, share your page to others persons sent messages to you</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div id="favorites" class="tab-pane fade">
+                        {% for message in favorites %}
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-body row">
+                                <div class="col col-sm-10">
+                                    {% if message.pic %}
+                                    <img src={{message.pic.url}}>
+
+                                    {%endif%}
+                                    <br>
+                                </div>
+                                <div class="col col-sm-2 text-right">
+                                    <form method="post" action="{% url 'message:delete' message.pk %}" >
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+                                <div class="col col-sm-10">
+                                    <p class="text-muted">{{ message.date_joined }}</p>
+                                </div>
+                                <div class="col col-sm-2 text-right">
+                                    <form method="post" action="{% url 'message:favorite' message.pk %}" >
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-heart" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+                                <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive">
+
+                            <div class="row">
+                                <div class="col-auto mx-2">
+                                    <a target="_blank" class="btn btn-social-share" href="https://api.whatsapp.com/send/?phone&image={{message.pic.url}}">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                </div>
+                                <div class="col-auto mx-2">
+                                    <button class="btn btn-social-share" data-sharer="facebook" data-hashtag="fintop" data-url="https://facebook.com/share?" data-title="Let's signup on FinTop! It's a fast, simple, and secure platform to apply & manage home loan Mortgages." data-href-template={{message.pic.url}}>
+                                        <i class="fab fa-facebook"></i>
+                                    </button>
+                                </div>
+                                <div class="col-auto mx-2">
+                                    <button class="btn btn-social-share" data-sharer="twitter" data-hashtag="fintop" data-url="https://www.twitter.com/share?" data-title="Let's signup on FinTop! It's a fast, simple, and secure platform to apply & manage home loan Mortgages." data-href-template={{message.pic.url}}>
+                                        <i class="fab fa-twitter"></i>
+                                    </button>
+                                </div>
+                                <div class="col-auto mx-2">
+                                    <button class="btn btn-social-share" data-sharer="Instagram" data-hashtag="fintop" data-url="https://www.instagram.com/share?" data-title="Let's signup on FinTop! It's a fast, simple, and secure platform to apply & manage home loan Mortgages." data-href-template={{message.pic.url}}>
+                                        <i class="fab fa-instagram"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- /.content -->
+
+                            </div>
+                        </div>
+                        {% empty %}
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Nothing to Show, share your page to others persons sent messages to you</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div id="sent" class="tab-pane fade">
+                        {% for message in sender %}
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-body row">
+                                <div class="col col-sm-10">
+                                    {% if message.pic %}
+                                    <img src={{message.pic.url}}>
+
+                                    {%endif%}
+                                    <br>
+                                </div>
+                                <div class="col col-sm-2 text-right">
+                                    <form method="post" action="{% url 'message:delete' message.pk %}" >
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+                                <div class="col col-sm-10">
+                                    <p class="text-muted">{{ message.date_joined }}</p>
+                                </div>
+                                <div class="col col-sm-2 text-right">
+                                    <form method="post" action="{% url 'message:favorite' message.pk %}" >
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-heart" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+                                <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive">
+
+                            <div class="row">
+                                <div class="col-auto mx-2">
+                                    <a target="_blank" class="btn btn-social-share" href="https://api.whatsapp.com/send/?phone&image={{message.pic.url}}">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                </div>
+                                <div class="col-auto mx-2">
+                                    <button class="btn btn-social-share" data-sharer="facebook"  data-url="https://facebook.com/share?" data-title="Let's signup on FinTop! It's a fast, simple, and secure platform to apply & manage home loan Mortgages." data-href-template={{message.pic.url}}>
+                                        <i class="fab fa-facebook"></i>
+                                    </button>
+                                </div>
+                                <div class="col-auto mx-2">
+                                    <button class="btn btn-social-share" data-sharer="twitter"  data-url="https://www.twitter.com/share?" data-title="Let's signup on FinTop! It's a fast, simple, and secure platform to apply & manage home loan Mortgages." data-href-template={{message.pic.url}}>
+                                        <i class="fab fa-twitter"></i>
+                                    </button>
+                                </div>
+                                <div class="col-auto mx-2">
+                                    <button class="btn btn-social-share" data-sharer="Instagram"  data-url="https://www.instagram.com/share?" data-title="Let's signup on FinTop! It's a fast, simple, and secure platform to apply & manage home loan Mortgages." data-href-template={{message.pic.url}}>
+                                        <i class="fab fa-instagram"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- /.content -->
+
+                            </div>
+                        </div>
+                        {% empty %}
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Nothing to Show, share your page to others persons sent messages to you</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
