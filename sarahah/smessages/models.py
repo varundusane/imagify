@@ -1,43 +1,47 @@
+from PIL import ImageDraw
+from PIL import Image
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.conf import settings
-<<<<<<< HEAD
 from django.db.models import ImageField
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
-# from .utils import edit_photo
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
-=======
->>>>>>> 02ac08a5e02b8c2bb1451d42ec17bf3afa8b0827
+from .utils import edit_photo
+
 
 # Create your models here.
-
-
-<<<<<<< HEAD
+# class MessagesManager(models.Manager):
+#     def edit_photo(self):
+#
+#         # m = Messages.objects.all()
+#         # for i in m :
+#         #     print(i.pic)
+#         url = self.pic
+#         im = Image.open(self.pic)
+#         # print(im)
+#         img_draw = ImageDraw.Draw(im)
+#         img_draw.text((70, 250), 'Hello World', fill='white')
+#         im.save("message/edit/{url}".format(url=im))
+#         print("message/edit/{url}".format(url=im))
+#         print(self.pk)
+#         self.editedpic = im
+#         print(self.editedpic.url)
+#         self.save()
+#         # print(pk)
 
 class Messages(models.Model):
     pic = ProcessedImageField(upload_to='message/posts',
                               null=True, blank=True,
-                              processors=[ResizeToFill(500, 150)],
+                              processors=[ResizeToFill(710, 400)],
                               format='JPEG',
                               options={'quality': 60})
 
-    editedpic = ImageField(upload_to='message/edit',null=True, blank=True,)
-=======
-class Messages(models.Model):
-    message = models.CharField(
-        'Message',
-        max_length=255,
-        help_text="You have 255 characters remaining",
-        blank=True
-    )
+    editpic = ProcessedImageField(upload_to='message/edit',
+                              null=True, blank=True,
+                              processors=[ResizeToFill(710, 550)],
+                              format='JPEG',
+                              options={'quality': 60})
 
-    pic = models.ImageField(
-        upload_to='message/posts', verbose_name='Picture ',
-        null=True, blank=True)
->>>>>>> 02ac08a5e02b8c2bb1451d42ec17bf3afa8b0827
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -56,8 +60,15 @@ class Messages(models.Model):
 
     favorite = models.BooleanField(
         'Favorite', default=False
-<<<<<<< HEAD
     )
-=======
-    )
->>>>>>> 02ac08a5e02b8c2bb1451d42ec17bf3afa8b0827
+
+    # def __init__(self):
+    #     for a in self.objects.all():
+    #         edit_photo(a)
+    def save(self, *args, **kwargs):
+        if self.favorite==True:
+            super().save(*args,**kwargs)
+        else:
+            self.editpic = edit_photo(self.pic,self.received)
+
+            super().save(*args, **kwargs)

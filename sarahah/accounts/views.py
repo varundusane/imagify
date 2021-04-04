@@ -1,3 +1,4 @@
+
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
@@ -12,6 +13,7 @@ from django.views.generic.base import View
 
 from .forms import RegisterUserForm, EditUserForm, RemoveProfileForm
 from .models import User
+from sarahah.smessages.models import Messages
 
 from sarahah.smessages.forms import SendMessage
 from sarahah.smessages.models import Messages
@@ -26,6 +28,11 @@ def dashboard(request):
     received = request.user.received.all().order_by('-date_joined')
     send = request.user.sender.all().order_by('-date_joined')
     favorites = request.user.received.filter(favorite=True).order_by('-date_joined')
+    # m = Messages.objects.all()
+    # for i in m:
+    #     print(i)
+    #     MessagesManager.edit_photo(i)
+
 
     context = {
         'received': received,
@@ -180,7 +187,9 @@ def pubProfile(request, profile):
         if form.is_valid():
             form = form.save(commit=False)
             form.received = received
-            print(form.pic)
+            # print(form.pic)
+
+
             if request.user.is_authenticated  :
                 form.sender = request.user
             else:
@@ -188,6 +197,7 @@ def pubProfile(request, profile):
             form.save()
             messages.success(
                 request, 'Message sent successfully!')
+
             return redirect('pubProfile', received.username)
     else:
         form = SendMessage()
