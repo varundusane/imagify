@@ -6,7 +6,7 @@ from django.conf import settings
 from django.db.models import ImageField
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
-from .utils import edit_photo
+from .utils import edit_photo, compressImage
 
 
 # Create your models here.
@@ -32,15 +32,15 @@ from .utils import edit_photo
 class Messages(models.Model):
     pic = ProcessedImageField(upload_to='message/posts',
                               null=True, blank=True,
-                              processors=[ResizeToFill(710, 400)],
+                              processors=[ResizeToFill(400, 400)],
                               format='JPEG',
                               options={'quality': 60})
 
     editpic = ProcessedImageField(upload_to='message/edit',
-                              null=True, blank=True,
-                              processors=[ResizeToFill(710, 550)],
-                              format='JPEG',
-                              options={'quality': 60})
+                                  null=True, blank=True,
+                                  processors=[ResizeToFill(400, 400)],
+                                  format='JPEG',
+                                  options={'quality': 60})
 
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -61,14 +61,23 @@ class Messages(models.Model):
     favorite = models.BooleanField(
         'Favorite', default=False
     )
+    notreport = models.BooleanField(
+        'Not reported', default=True
+    )
 
     # def __init__(self):
     #     for a in self.objects.all():
     #         edit_photo(a)
     def save(self, *args, **kwargs):
-        if self.favorite==True:
-            super().save(*args,**kwargs)
+        if self.favorite == True:
+            super().save(*args, **kwargs)
         else:
-            self.editpic = edit_photo(self.pic,self.received)
+            self.pic = compressImage(self.pic)
+            super().save(*args, **kwargs)
+            self.editpic = edit_photo(self.pic, self.received)
 
             super().save(*args, **kwargs)
+
+
+class report(models.Model):
+    mess = models.ForeignKey(Messages, on_delete=models.CASCADE, related_name='reported_message')

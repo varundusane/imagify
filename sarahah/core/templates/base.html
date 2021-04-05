@@ -1,14 +1,15 @@
 {% load static bootstrap3 %}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="us-en">
     <head>
-        <title></title>
+        <title>Imagify</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
         {% bootstrap_css %}
+        
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -22,7 +23,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                    <a class="navbar-brand" href="{% url 'core:home' %}">Saraha-Django</a>
+                    <div class="logo"><img src="{% static 'images/logo.jpg' %}" style="width:150px;height:80px;  alt="#" /> <a href="index.html"></a> </div>
                 </div>
 
                 {% include 'security/_menu.html' %}
@@ -35,7 +36,7 @@
         </div>
 
         <footer class="fixed-footer">
-            <p>Sarahah-Django 2017 ©</p>
+            <p>Imagify 2021 ©</p>
         </footer>
 
         {% bootstrap_javascript 'jquery' %}

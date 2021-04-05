@@ -48,39 +48,21 @@ def register(request):
         form = RegisterUserForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
-            form.is_active=False
-            current_site = get_current_site(request)
-            subject = 'Activate Your FinTop Account'
-            message = render_to_string('accounts/emails/account_activation_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-
-            })
-            user.email_user(subject, message)
+            user = authenticate(
+                username=user.username,
+                password=form.cleaned_data['password1']
+            )
             messages.success(
-                request, ('Please check your mail for complete registration.'))
-            # return redirect('login')
-            global passwod1
-            passwod1 = form.cleaned_data['password1']
-            return render(request, template_name, {'form': form})
-
-            # user = authenticate(
-            #     username=user.username,
-            #     password=form.cleaned_data['password1']
-            # )
-            # messages.success(
-            #     request, 'Register now, just use our platform!')
-            # login(request, user)
-            # return redirect('account:dashboard')
+                request, 'Registered Successfully, Enjoy our platform!')
+            login(request, user)
+            return redirect('account:dashboard')
     else:
         form = RegisterUserForm()
     context = {
         'form': form
     }
     return render(request, template_name, context)
-
+    
 class ActivateAccount(View):
 
     def get(self, request, uidb64, token, *args, **kwargs):
@@ -207,3 +189,7 @@ def pubProfile(request, profile):
         'form': form
     }
     return render(request, template_name, context)
+
+def terms(request):
+    template_name = "terms.html"
+    return render(request, template_name)

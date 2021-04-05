@@ -1,12 +1,19 @@
 html {
     position: relative;
     min-height: 100%;
+    /* background-color: #beccc2; */
+
 }
 
 body {
     /* Margin bottom by footer height */
     padding-bottom: 50px;
+
 }
+
+img {
+    max-width: 100%;
+  }
 
 footer {
     position: absolute;
@@ -23,3 +30,8 @@ footer p {
 .img-profile{
     width: 200px;
 }
+
+/* .container-fluid{
+    background-color: #beccc2;
+
+} */
